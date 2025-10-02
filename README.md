@@ -4,8 +4,8 @@
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://www.python.org/)  
 [![Django](https://img.shields.io/badge/Django-4.x-green?logo=django)](https://www.djangoproject.com/)  
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)  
-[![Last Commit](https://img.shields.io/github/last-commit/mrshaikh456/CradleCare_MySQL)](https://github.com/mrshaikh456/CradleCare_WebApp_django_mysql_version/commits/main)  
-[![Issues](https://img.shields.io/github/issues/mrshaikh456/CradleCare_MySQL)](https://github.com/mrshaikh456/CradleCare_WebApp_django_mysql_version/issues)  
+[![Last Commit](https://img.shields.io/github/last-commit/mrshaikh456/CradleCare_WebApp_django_mysql_version)](https://github.com/mrshaikh456/CradleCare_WebApp_django_mysql_version/commits/main)  
+[![Issues](https://img.shields.io/github/issues/mrshaikh456/CradleCare_WebApp_django_mysql_version)](https://github.com/mrshaikh456/CradleCare_WebApp_django_mysql_version/issues)  
 [![Contributions Welcome](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg?logo=github)](../../issues)
 
 CradleCare is a **full-stack web application** designed as an all-in-one wellness tracker for newborns and their mothers.  
