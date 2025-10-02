@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}Vaccination Schedule - CradleCare{% endblock %}
+
+{% block page_title %}Vaccination Schedule for {{ baby.name }}{% endblock %}
+
+{% block content %}
+<div class="page-description">
+    <p>This is a standard vaccination schedule dynamically generated based on your baby's date of birth. Always consult your pediatrician for personalized medical advice.</p>
+</div>
+
+{% if messages %}
+    <div class="messages" style="margin-bottom: 1.5rem;">
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="card">
+    <div class="card__header">
+        <h3 class="card__title">Upcoming & Completed Vaccinations</h3>
+    </div>
+    <div class="card__content">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Vaccine</th>
+                    <th>Calculated Due Date</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in schedule %}
+                <tr>
+                    <td>
+                        <strong>{{ item.vaccine.name }}</strong>
+                        <small class="text-secondary" style="display: block;">Recommended at {{ item.vaccine.recommended_age_weeks }} weeks</small>
+                    </td>
+                    <td>{{ item.due_date|date:"F j, Y" }}</td>
+                    <td>
+                        {% if item.status == 'Done' %}
+                            <span class="status--done">Done</span>
+                        {% elif item.status == 'Due' %}
+                            <span class="status--due">Due</span>
+                        {% elif item.status == 'Due Soon' %}
+                            <span class="status--due-soon">Due Soon</span>
+                        {% else %}
+                            <span class="status--pending">Pending</span>
+                        {% endif %}
+                    </td>
+                    <td style="text-align: right;">
+                        {% if item.status != 'Done' %}
+                            <form method="post" style="margin: 0;">
+                                {% csrf_token %}
+                                <!-- Hidden input to send the vaccine ID -->
+                                <input type="hidden" name="vaccine_id" value="{{ item.vaccine.id }}">
+                                
+                                <!-- Optional: Allow user to specify the exact date -->
+                                <input type="date" name="date_administered" class="form-input" style="display:none;" value="{{ today|date:'Y-m-d' }}">
+
+                                <button type="submit" class="btn btn--secondary">Mark as Done</button>
+                            </form>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+

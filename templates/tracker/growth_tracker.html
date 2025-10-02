@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+{% block title %}{{ baby.name }}'s Growth Tracker{% endblock %}
+
+{% block page_title %}{{ baby.name }}'s Growth Tracker{% endblock %}
+
+{% block content %}
+<!-- Display messages -->
+{% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<div class="tracker-layout">
+    <!-- Top row containing the form and the chart -->
+    <div class="tracker-top-row">
+        <!-- Form Card -->
+        <div class="card form-card">
+            <div class="card__header">
+                <h3 class="card__title">Add New Growth Log</h3>
+            </div>
+            <div class="card__content">
+                <form method="post" class="form-layout">
+                    {% csrf_token %}
+                    
+                    <!-- Manual Form Rendering -->
+                    <div class="form-group">
+                        <label for="{{ form.log_date.id_for_label }}" class="form-label">Date</label>
+                        <input type="date" name="log_date" id="{{ form.log_date.id_for_label }}" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.height_cm.id_for_label }}" class="form-label">Height (cm)</label>
+                        <input type="number" step="0.1" name="height_cm" id="{{ form.height_cm.id_for_label }}" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.weight_kg.id_for_label }}" class="form-label">Weight (kg)</label>
+                        <input type="number" step="0.01" name="weight_kg" id="{{ form.weight_kg.id_for_label }}" class="form-input" required>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 2rem;">
+                        <button type="submit" class="btn btn--primary btn--block">Save Log</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- History Card with Chart -->
+        <div class="card data-card growth-chart-card">
+            <div class="card__header">
+                <h3 class="card__title">Growth Visualization</h3>
+            </div>
+            <div class="card__content">
+                <canvas id="growthChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Full History Table Card -->
+    <div class="card data-card full-history-card">
+        <div class="card__header">
+            <h3 class="card__title">All Logs</h3>
+        </div>
+        <div class="card__content">
+            {% if logs %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Height (cm)</th>
+                            <th>Weight (kg)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for log in logs %}
+                        <tr>
+                            <td>{{ log.log_date|date:"F j, Y" }}</td>
+                            <td>{{ log.height_cm }}</td>
+                            <td>{{ log.weight_kg }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-secondary">No growth logs have been added yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Data block for Chart.js -->
+{% if logs %}
+<script id="growth-data" type="application/json">
+{
+    "labels": [
+        {% for log in logs.reverse %}
+            "{{ log.log_date|date:'M j' }}"{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ],
+    "weightData": [
+        {% for log in logs.reverse %}
+            {{ log.weight_kg }}{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ],
+    "heightData": [
+        {% for log in logs.reverse %}
+            {{ log.height_cm }}{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ]
+}
+</script>
+{% endif %}
+
+<!-- JavaScript for Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const growthDataElement = document.getElementById('growth-data');
+        
+        if (growthDataElement) {
+            const growthData = JSON.parse(growthDataElement.textContent);
+            const ctx = document.getElementById('growthChart').getContext('2d');
+            
+            // Create a gradient fill
+            const primaryColor = `hsl(210, 50%, 45%)`;
+            const secondaryColor = `hsl(280, 50%, 60%)`;
+            
+            const weightGradient = ctx.createLinearGradient(0, 0, 0, 400);
+            weightGradient.addColorStop(0, 'hsla(210, 50%, 45%, 0.4)');
+            weightGradient.addColorStop(1, 'hsla(210, 50%, 45%, 0)');
+            
+            const heightGradient = ctx.createLinearGradient(0, 0, 0, 400);
+            heightGradient.addColorStop(0, 'hsla(280, 50%, 60%, 0.4)');
+            heightGradient.addColorStop(1, 'hsla(280, 50%, 60%, 0)');
+
+            const growthChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: growthData.labels,
+                    datasets: [
+                        {
+                            label: 'Weight (kg)',
+                            data: growthData.weightData,
+                            borderColor: primaryColor,
+                            backgroundColor: weightGradient,
+                            borderWidth: 2.5,
+                            fill: true,
+                            tension: 0.4, // Smoother curve
+                            pointBackgroundColor: primaryColor,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            yAxisID: 'yWeight' // Assign to the first Y-axis
+                        },
+                        {
+                            label: 'Height (cm)',
+                            data: growthData.heightData,
+                            borderColor: secondaryColor,
+                            backgroundColor: heightGradient,
+                            borderWidth: 2.5,
+                            fill: true,
+                            tension: 0.4, // Smoother curve
+                            pointBackgroundColor: secondaryColor,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            yAxisID: 'yHeight' // Assign to the second Y-axis
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        yWeight: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Weight (kg)'
+                            },
+                            beginAtZero: true
+                        },
+                        yHeight: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Height (cm)'
+                            },
+                            // Ensure the height axis doesn't overlap the weight axis
+                            grid: {
+                                drawOnChartArea: false, 
+                            },
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            align: 'end'
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    }
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
+

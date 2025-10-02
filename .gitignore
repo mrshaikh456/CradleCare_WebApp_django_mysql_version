@@ -1,0 +1,32 @@
+Python
+pycache/
+*.pyc
+*.pyo
+*.pyd
+
+Virtual Environment
+venv/
+.venv/
+
+Database
+Ignore the SQLite database file.
+db.sqlite3
+db.sqlite3-journal
+
+Django
+Ignore sensitive files and user-uploaded media (if you add it later).
+*.log
+local_settings.py
+media/
+
+IDE / Editor specific files
+.vscode/
+.idea/
+
+Operating System files
+.DS_Store
+Thumbs.db
+
+Directory files
+dir.txt
+dir_new.txt

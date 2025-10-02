@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Confirm Deletion - CradleCare{% endblock %}
+
+{% block page_title %}Confirm Deletion{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 600px; margin: 2rem auto;">
+    <div class="card__header">
+        <h3 class="card__title">Are you sure?</h3>
+    </div>
+    <div class="card__content">
+        <p>You are about to permanently delete the following item:</p>
+        
+        <div class="item-to-delete">
+            <!-- Display a summary of the item being deleted -->
+            {% if item_type == "Growth Log" %}
+                <strong>{{ item_type }}:</strong> {{ item.log_date|date:"F j, Y" }} ({{ item.weight_kg }} kg, {{ item.height_cm }} cm)
+            {% elif item_type == "Sleep Session" %}
+                <strong>{{ item_type }}:</strong> From {{ item.start_time|date:"F j, P" }} to {{ item.end_time|date:"P" }}
+            {% elif item_type == "Feeding Log" %}
+                <strong>{{ item_type }}:</strong> {{ item.feeding_time|date:"F j, P" }} ({{ item.get_feeding_type_display }})
+            {% elif item_type == "Appointment" %}
+                 <strong>{{ item_type }}:</strong> {{ item.doctor_name }} on {{ item.appt_datetime|date:"F j, Y" }}
+            {% elif item_type == "Milestone" %}
+                 <strong>{{ item_type }}:</strong> "{{ item.milestone_title }}" on {{ item.milestone_date|date:"F j, Y" }}
+            {% else %}
+                An item.
+            {% endif %}
+        </p>
+
+        <form method="post" class="form-layout" style="margin-top: 2rem;">
+            {% csrf_token %}
+            <div class="form-actions">
+                <a href="{{ cancel_url }}" class="btn btn--secondary">Cancel</a>
+                <button type="submit" class="btn btn--danger">Yes, Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

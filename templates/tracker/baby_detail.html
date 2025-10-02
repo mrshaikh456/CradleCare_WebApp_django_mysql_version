@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}{{ baby.name }}'s Profile - CradleCare{% endblock %}
+
+{% block page_title %}{{ baby.name }}{% endblock %}
+
+{% block content %}
+<div class="page-description">
+    <p>Select a tracker below to view or add new logs for {{ baby.name }}.</p>
+</div>
+
+<div class="dashboard-grid">
+    <!-- Growth Tracker Card -->
+    <a href="{% url 'growth_tracker' baby.id %}" class="card-link">
+        <div class="card dashboard-card">
+            <div class="card__content">
+                <h3>Growth Tracker</h3>
+                <p class="text-secondary">Log and view height & weight.</p>
+            </div>
+        </div>
+    </a>
+    
+    <!-- Sleep Tracker Card -->
+    <a href="{% url 'sleep_tracker' baby.id %}" class="card-link">
+        <div class="card dashboard-card">
+            <div class="card__content">
+                <h3>Sleep Log</h3>
+                <p class="text-secondary">Track sleep sessions.</p>
+            </div>
+        </div>
+    </a>
+
+    <!-- Feeding Tracker Card -->
+    <a href="{% url 'feeding_tracker' baby.id %}" class="card-link">
+        <div class="card dashboard-card">
+            <div class="card__content">
+                <h3>Feeding Log</h3>
+                <p class="text-secondary">Record feeding times.</p>
+            </div>
+        </div>
+    </a>
+    
+    <!-- Appointments Card -->
+    <a href="{% url 'appointment_tracker' baby.id %}" class="card-link"> <!-- UPDATED LINK -->
+        <div class="card dashboard-card">
+            <div class="card__content">
+                <h3>Appointments</h3>
+                <p class="text-secondary">Manage doctor visits.</p>
+            </div>
+        </div>
+    </a>
+
+    <a href="{% url 'milestone_tracker' baby.id %}" class="card-link"> <!-- UPDATED LINK -->
+        <div class="card dashboard-card">
+            <div class="card__content">
+                <h3>Milestones</h3>
+                <p class="text-secondary">Cherish special moments.</p>
+            </div>
+        </div>
+    </a>
+
+    <a href="{% url 'vaccination_schedule' baby.id %}" class="card-link"> <!-- UPDATED LINK -->
+        <div class="card dashboard-card">
+            <div class="card__content">
+                <h3>Vaccinations</h3>
+                <p class="text-secondary">View upcoming schedule.</p>
+            </div>
+        </div>
+    </a>
+</div>
+{% endblock %}
+

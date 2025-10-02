@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Recipe Book - CradleCare{% endblock %}
+
+{% block page_title %}Recipe Book{% endblock %}
+
+{% block content %}
+<div class="page-description">
+    <p>A collection of nutritious recipes designed for postpartum recovery and for your baby's first foods.</p>
+</div>
+
+<!-- Recipes for Mother -->
+<section class="recipe-section">
+    <h2>For the Mother</h2>
+    {% if mother_recipes %}
+        <div class="dashboard-grid">
+            {% for recipe in mother_recipes %}
+            <div class="card">
+                <div class="card__header">
+                    <h3 class="card__title">{{ recipe.recipe_name }}</h3>
+                </div>
+                <div class="card__content">
+                    <p class="text-secondary">{{ recipe.description }}</p>
+                    <hr>
+                    <h4>Ingredients:</h4>
+                    <p>{{ recipe.ingredients|linebreaksbr }}</p>
+                    <h4>Instructions:</h4>
+                    <p>{{ recipe.instructions|linebreaksbr }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-secondary">No recipes for mothers have been added yet. Please check back later.</p>
+    {% endif %}
+</section>
+
+<!-- Recipes for Baby -->
+<section class="recipe-section">
+    <h2>For the Baby</h2>
+    {% if baby_recipes %}
+        <div class="dashboard-grid">
+            {% for recipe in baby_recipes %}
+            <div class="card">
+                <div class="card__header">
+                    <h3 class="card__title">{{ recipe.recipe_name }}</h3>
+                </div>
+                <div class="card__content">
+                    <p class="text-secondary">{{ recipe.description }}</p>
+                    <hr>
+                    <h4>Ingredients:</h4>
+                    <p>{{ recipe.ingredients|linebreaksbr }}</p>
+                    <h4>Instructions:</h4>
+                    <p>{{ recipe.instructions|linebreaksbr }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-secondary">No recipes for babies have been added yet. Please check back later.</p>
+    {% endif %}
+</section>
+
+{% endblock %}
