@@ -292,10 +292,134 @@ ul {
 
 /* --- 8. Page & Component Specific Styles --- */
 
-/* Auth Card */
+
+/* General Auth Card */
 .auth-card {
-    max-width: 480px;
+    max-width: 420px; /* smaller than register’s current 480px */
     margin: 3rem auto;
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+}
+
+/* Headers */
+.auth-card .card__header {
+    background: var(--primary-light);
+    padding: 1.5rem;
+    text-align: center;
+}
+.auth-card .card__title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--primary-color);
+}
+
+.auth-card .card__content {
+    padding: 2rem;
+}
+
+.auth-card .card__footer {
+    padding: 1rem;
+    background: var(--primary-light);
+    font-size: 0.9rem;
+}
+
+/* Forms */
+.auth-card .form-group {
+    margin-bottom: 1rem;
+}
+
+.auth-card .form-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+    color: var(--text-primary);
+}
+
+.auth-card .form-input {
+    padding: 0.7rem 1rem;
+    font-size: 0.95rem;
+    border-radius: var(--border-radius-sm);
+}
+/* Help text (compact for Register page) */
+.auth-card .form-help-text {
+    font-size: 0.75rem;
+    line-height: 1.2;
+    margin-top: 0.2rem;
+    color: var(--text-secondary);
+}
+/* Radio buttons inline */
+.auth-card .form-group.radio-group {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+.auth-card .form-group.radio-group label {
+    font-weight: 500;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+/* Buttons */
+.auth-card .btn--primary {
+    margin-top: 1rem;
+    font-size: 1rem;
+    padding: 0.8rem;
+    border-radius: var(--border-radius-sm);
+}
+
+/* Footer */
+.auth-card .card__footer {
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 1rem;
+}
+
+/* Keep radio/checkbox groups inline */
+.auth-card .form-group input[type="radio"],
+.auth-card .form-group input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+.auth-card .form-group label {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+/* Form Enhancements */
+.form-group input, 
+.form-group select, 
+.form-group textarea {
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.form-group input:focus, 
+.form-group select:focus, 
+.form-group textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 6px hsla(var(--primary-hue), 50%, 45%, 0.25);
+}
+
+/* Submit Button */
+.auth-card .btn--primary {
+    margin-top: 1rem;
+    font-size: 1.05rem;
+    padding: 0.9rem 1.5rem;
+}
+
+/* Subtle animation */
+@keyframes fadeInUp {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0);
+    }
 }
 
 /* Dashboard Grid */
