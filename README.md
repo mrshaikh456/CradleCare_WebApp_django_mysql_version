@@ -1,11 +1,11 @@
 # CradleCare 👶💖  
-**The Newborn & Mother Wellness Companion**
+**The Newborn & Mother Wellness Companion (MySQL Version)**
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)](https://www.python.org/)  
 [![Django](https://img.shields.io/badge/Django-4.x-green?logo=django)](https://www.djangoproject.com/)  
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)  
-[![Last Commit](https://img.shields.io/github/last-commit/mrshaikh456/CradleCare_WebApp)](https://github.com/mrshaikh456/CradleCare_WebApp/commits/main)  
-[![Issues](https://img.shields.io/github/issues/mrshaikh456/CradleCare_WebApp)](https://github.com/mrshaikh456/CradleCare_WebApp/issues)  
+[![Last Commit](https://img.shields.io/github/last-commit/mrshaikh456/CradleCare_MySQL)](https://github.com/mrshaikh456/CradleCare_WebApp_django_mysql_version/commits/main)  
+[![Issues](https://img.shields.io/github/issues/mrshaikh456/CradleCare_MySQL)](https://github.com/mrshaikh456/CradleCare_WebApp_django_mysql_version/issues)  
 [![Contributions Welcome](https://img.shields.io/badge/Contributions-Welcome-brightgreen.svg?logo=github)](../../issues)
 
 CradleCare is a **full-stack web application** designed as an all-in-one wellness tracker for newborns and their mothers.  
@@ -33,7 +33,7 @@ It provides a clean, intuitive interface to help new mothers log, track, and vis
 
 ## 🛠 Tech Stack
 - **Backend:** Python / Django  
-- **Database:** SQLite 3  
+- **Database:** **MySQL 8.x**  
 - **Frontend:** HTML5 / CSS3  
 - **Styling:** Custom CSS (component-based)  
 - **Charts:** Chart.js  
@@ -45,12 +45,14 @@ It provides a clean, intuitive interface to help new mothers log, track, and vis
 ### Prerequisites
 - [Python 3.x](https://www.python.org/downloads/)  
 - [pip](https://pip.pypa.io/en/stable/)  
+- [MySQL 8.x](https://dev.mysql.com/downloads/)  
+- [MySQL Client / Connector](https://pypi.org/project/mysqlclient/)  
 
 ### Steps
 1. **Clone the repository**  
    ```bash
-   git clone https://github.com/mrshaikh456/CradleCare_WebApp.git
-   cd CradleCare_WebApp
+   git clone https://github.com/mrshaikh456/CradleCare_WebApp_django_mysql_version.git
+   cd CradleCare_MySQL
 
 2. **Create & activate a virtual environment**
     ```bash
@@ -67,15 +69,28 @@ It provides a clean, intuitive interface to help new mothers log, track, and vis
     ```bash
     pip install -r requirements.txt
 
-4. Apply migrations
+4. Update your database settings (in settings.py) with your MySQL credentials:
+    ```python
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'cradlecare_db',
+        'USER': 'your_mysql_user',
+        'PASSWORD': 'your_mysql_password',
+        'HOST': 'localhost',
+        'PORT': '3306',
+        }
+    }
+
+5. Apply migrations
     ```bash
     python manage.py migrate
     
-5. Create a superuser (for Admin Panel)
+6. Create a superuser (for Admin Panel)
     ```bash
     python manage.py createsuperuser
 
-6. Run the development server
+7. Run the development server
     ```bash
     python manage.py runserver
 App will be live at: http://127.0.0.1:8000/
